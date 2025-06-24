@@ -44,9 +44,10 @@ A Spring Boot-based microservice for generating and managing tracking numbers wi
 
 ```
 GET /api/v1/next-tracking-number
-```
 
-**Request Body:**
+# Example
+GET http://localhost:8080/api/v1/next-tracking-number?origin_country_id=ID&destination_country_id=MY&weight=4&created_at=2025-06-24T15%3A30%3A45%2B07%3A00&customer_id=de619854-b59b-425e-9db4-943979e1bd49&customer_name=RedBox Logistics&customer_slug=redbox-logistics
+```
 
 **Request Parameters:**
 
