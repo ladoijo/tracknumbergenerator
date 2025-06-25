@@ -25,14 +25,17 @@ public class TrackNumberService {
                 + reqDto.customerId()
                 + reqDto.customerName()
                 + reqDto.customerSlug();
-        
+
         var hash = Hashing.sha256().hashString(value, StandardCharsets.UTF_8).toString();
-        var trackNumber = trackNumberCache.get(hash);
-        if (trackNumber != null) return new TrackNumberRespDto(trackNumber, OffsetDateTime.now());
+        var valueCached = trackNumberCache.get(hash);
+        if (valueCached != null) {
+            String[] parts = valueCached.split("_");
+            return new TrackNumberRespDto(parts[0], OffsetDateTime.parse(parts[1]));
+        }
 
         var base16 = new BigInteger(hash, 16);
         var base36 = base16.toString(36).toUpperCase();
-        trackNumber = base36.substring(0, 16);
+        var trackNumber = base36.substring(0, 16);
 
         while (trackNumberCache.exists(trackNumber)) {
             var beginIndex = new Random().nextInt(10);
@@ -40,8 +43,10 @@ public class TrackNumberService {
             trackNumber = base36.substring(beginIndex, endIndex);
         }
 
-        trackNumberCache.put(hash, trackNumber);
+        var createdAt = OffsetDateTime.now();
+        var valueToCache = trackNumber + "_" + createdAt;
+        trackNumberCache.put(hash, valueToCache);
         trackNumberCache.put(trackNumber, hash);
-        return new TrackNumberRespDto(trackNumber, OffsetDateTime.now());
+        return new TrackNumberRespDto(trackNumber, createdAt);
     }
 }

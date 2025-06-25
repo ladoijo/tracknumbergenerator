@@ -16,27 +16,42 @@ A Spring Boot-based microservice for generating and managing tracking numbers wi
 
 - JDK 21 or higher
 - Gradle 8.0+ (included in the project as `gradlew`)
+- Docker (Optional, install Docker only if you need it to run the app in a container.)
 - Internet connection (for downloading dependencies)
 
 ## 🛠️ Setup
 
-1. **Clone the repository**
+**Clone the repository**
+
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/ladoijo/tracknumbergenerator.git
    cd tracknumbergenerator
    ```
 
-2. **Build the project**
+### No Docker
+
+1. **Build the project**
    ```bash
    ./gradlew build
    ```
 
-3. **Run the application**
+2. **Run the application**
    ```bash
    ./gradlew bootRun
    ```
 
-   The application will start on `http://localhost:8080` by default.
+### With Docker
+
+1. **Build the Docker image**
+   ```bash
+   docker build -t tracknumbergenerator .
+   ```
+2. **Run the Docker container**
+   ```bash
+   docker run -p 8080:8080 tracknumbergenerator
+   ```
+
+The application will start on `http://localhost:8080` by default.
 
 ## 🚦 API Endpoints
 
